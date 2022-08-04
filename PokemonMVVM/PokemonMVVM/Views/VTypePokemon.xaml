@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PokemonMVVM.Views.VTypePokemon"
+             xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+             xmlns:mvx="clr-namespace:MvvmCross.Forms.Bindings;assembly=MvvmCross.Forms"
+             xmlns:viewModels="clr-namespace:PokemonMVVM.Core.ViewModels;assembly=PokemonMVVM.Core" 
+             xmlns:behavior="clr-namespace:PokemonMVVM.Behaviors"
+             x:TypeArguments="viewModels:VMTypePokemon"
+             NavigationPage.HasNavigationBar="False">
+
+
+    <ContentPage.Content>
+        <Grid BackgroundColor="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackLayout BackgroundColor="#ed5564"
+                         Grid.Row="0"
+                         VerticalOptions="Start"
+                         HeightRequest="40"
+                        >
+            </StackLayout>
+            <Frame CornerRadius="40"
+                   BackgroundColor="#ed5564"
+                   HasShadow="False"
+                    Grid.Row="0">
+                <StackLayout BackgroundColor="#ed5564"
+                        >
+                    <Image Source="logo"
+                       HorizontalOptions="Center"
+                       Aspect="AspectFit"
+                       HeightRequest="50"
+                       Margin="5" />
+                </StackLayout>
+            </Frame>
+           
+            
+
+            <StackLayout BackgroundColor="White"
+                             VerticalOptions="FillAndExpand"
+                             Padding="8,0,8,3"
+                           Grid.Row="1"
+>
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="EndAndExpand">
+                    <Button 
+                        Text="Search All Pokémon"
+                        TextColor="#7D7D7D"
+                        HorizontalOptions="End"
+                        BackgroundColor ="WhiteSmoke"
+                        CornerRadius="30"
+                        Command="{mvx:MvxBind AllFilterTypeCommand}"/>
+                    <Button 
+                        Text="Filter" 
+                        TextColor="Black"
+                        BackgroundColor ="WhiteSmoke"
+                        HeightRequest="10"
+                        HorizontalOptions="End"
+                        CornerRadius="30"
+                        ImageSource="filter"
+                        Command="{mvx:MvxBind FilterTypeCommand}"/>
+                   
+                </StackLayout>
+                <StackLayout Padding="0,0,0,10">
+                    <Label
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        FontSize="14"
+                        HorizontalOptions="Start"
+                        HorizontalTextAlignment="Start"
+                        VerticalOptions="Center" 
+                        VerticalTextAlignment="Center"
+                        TextColor="#7D7D7D"                        
+                        FontAttributes="Bold"
+                         mvx:Bi.nd="Text NameFilter" />
+                    <StackLayout 
+                        BackgroundColor="#ed5564"
+                        HeightRequest="0.5"/>
+                </StackLayout>
+
+                <views:MvxListView 
+                        HorizontalOptions="FillAndExpand" 
+                        VerticalOptions="FillAndExpand"
+                        SelectionMode="None"
+                        ItemsSource="{mvx:MvxBind Pokemons}" 
+                        ItemClick="{mvx:MvxBind PokemonSelectedCommand}"
+                        IsPullToRefreshEnabled="True"
+                        RefreshCommand="{mvx:MvxBind RefreshPokemonCommand}"
+                        BackgroundColor="Transparent"
+                        RowHeight="100"
+                        SeparatorVisibility="None">
+                    <ListView.Behaviors>
+                    <behavior:InfiniteScroll LoadMoreCommand="{Binding FetchPokemonCommand}" />
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <views:MvxViewCell>
+                            <StackLayout
+                                Orientation="Vertical">
+                                    <Grid >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout  
+                                        Grid.Column="0"
+                                        Grid.Row="0">
+                                        <Frame 
+                                            CornerRadius="100" 
+                                            HeightRequest="100"
+                                            WidthRequest="100"
+                                            HorizontalOptions="Center"
+                                            Padding="0"
+                                            BackgroundColor="Transparent"
+                                            BorderColor="DarkRed"
+                                            IsClippedToBounds="True">
+                                            <Image mvx:Bi.nd="Source UrlImage"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"
+                                                   HeightRequest="60"
+                                                   Aspect="AspectFit"/>
+                                        </Frame>
+                                    </StackLayout>
+                                    <Label
+                                        Grid.Column="1"
+                                        Grid.Row="0"
+                                        FontSize="Medium"
+                                        Margin="10,0,0,0"
+                                        HorizontalOptions="Start"
+                                        HorizontalTextAlignment="Start"
+                                        VerticalOptions="Center" 
+                                        VerticalTextAlignment="Center"
+                                        TextColor="Black"
+                                        FontAttributes="Bold"
+                                        mvx:Bi.nd="Text Name" />
+                                           
+                                </Grid>
+                                
+                                <BoxView
+                                    HeightRequest="1"
+                                    Color="White" />
+                            </StackLayout>
+                        </views:MvxViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </views:MvxListView>
+                     </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</views:MvxContentPage>
